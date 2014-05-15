@@ -4189,6 +4189,15 @@ static void CG_Draw2D(stereoFrame_t stereoFrame)
 		return;
 	}
 
+#ifdef SMOKINGUNS
+    // iLag -- Draw the game restart timer when the round is over.
+    // Needs to be here or the intermission checker will override it.
+	if ( !CG_DrawFollow() ) {
+		if(cg_warmupmessage.integer)
+			CG_DrawWarmup();
+	}
+#endif
+
 	if ( cg.snap->ps.pm_type == PM_INTERMISSION ) {
 		CG_DrawIntermission();
 		return;
@@ -4240,11 +4249,6 @@ static void CG_Draw2D(stereoFrame_t stereoFrame)
 #else
 	// Draw chat messages
 	CG_DrawChatMessages();
-
-	if ( !CG_DrawFollow() ) {
-		if(cg_warmupmessage.integer)
-			CG_DrawWarmup();
-	}
 
 	CG_DrawSpectator();
 

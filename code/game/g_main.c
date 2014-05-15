@@ -1581,8 +1581,8 @@ void ClearDuelData(qboolean all);
 void ExitLevel (void) {
 	int		i;
 	gclient_t *cl;
-#ifndef SMOKINGUNS
 	char nextmap[MAX_STRING_CHARS];
+#ifndef SMOKINGUNS
 	char d1[MAX_STRING_CHARS];
 #endif
 
@@ -1613,7 +1613,13 @@ void ExitLevel (void) {
 		trap_SendConsoleCommand( EXEC_APPEND, "vstr nextmap\n" );
 	}
 #else
-	trap_SendConsoleCommand( EXEC_APPEND, "vstr nextmap\n" );
+	trap_Cvar_VariableStringBuffer( "nextmap", nextmap, sizeof(nextmap) );
+    if ( Q_stricmp( nextmap , "" ) ){
+        trap_SendConsoleCommand( EXEC_APPEND, "vstr nextmap\n" );
+    } else {
+        Com_Printf("No nextmap specified!  Restarting current map in 5 seconds.\n");
+        trap_SendConsoleCommand( EXEC_APPEND, "map_restart 5\n" );
+    }
 #endif
 
 	level.changemap = NULL;
