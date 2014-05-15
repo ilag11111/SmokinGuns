@@ -4374,4 +4374,41 @@ void CG_BulletTracer( vec3_t start, vec3_t end, int number, int entityNum ) {
 	VectorCopy(start, re->origin);
 	re->origin[2] += 2 ;
 }
+
+void CG_InstaSwap(){
+	playerState_t *ps = &cg.predictedPlayerState;
+	char weapon[MAX_STRING_TOKENS];
+	trap_Argv( 1, weapon , sizeof( weapon ) );
+	
+	if (!Q_stricmp(weapon,"knife")){
+		cg.weaponSelect=WP_KNIFE;
+	} else if (!Q_stricmp(weapon,"pistol1")){
+		int pistol;
+		if (pistol=BG_SearchTypeWeapon(WPS_PISTOL,ps->stats[STAT_WEAPONS],0)){
+			cg.weaponSelect=pistol;
+			
+		}
+	} else if (!Q_stricmp(weapon,"pistol2")){
+		int pistol;
+		if (pistol=BG_SearchTypeWeapon(WPS_PISTOL,ps->stats[STAT_WEAPONS],BG_SearchTypeWeapon(WPS_PISTOL,ps->stats[STAT_WEAPONS],0))){
+			//Something tells me there should be a better way to do this.
+			cg.weaponSelect=pistol;
+			
+		}
+	} else if (!Q_stricmp(weapon,"akimbo")){
+		cg.weaponSelect=WP_AKIMBO;
+	} else if (!Q_stricmp(weapon,"longgun")){
+		int longgun;
+		if (longgun=BG_SearchTypeWeapon(WPS_GUN,ps->stats[STAT_WEAPONS],0)){
+			cg.weaponSelect=longgun;
+		}
+	} else if (!Q_stricmp(weapon,"dynamite")){
+		cg.weaponSelect=WP_DYNAMITE;
+	} else if (!Q_stricmp(weapon,"molotov")){
+		cg.weaponSelect=WP_MOLOTOV;
+	} else {
+		CG_Printf("Unrecognized weapon: %s\n",weapon);
+	}
+}
+
 #endif

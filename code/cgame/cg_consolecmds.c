@@ -833,6 +833,7 @@ static consoleCommand_t	commands[] = {
 	{ "node_savefile", CG_SaveFileAiNode_f},
 	{ "node_openfile", CG_OpenFileAiNode_f},
 	{ "wq_buy", CG_BuyMenu },
+	{ "instaswap", CG_InstaSwap },
 #endif
 	{ "startOrbit", CG_StartOrbit_f },
 	//{ "camera", CG_Camera_f },
